@@ -1,0 +1,2 @@
+# NuevoProyecto
+Control de stock
