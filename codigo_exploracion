@@ -1,0 +1,81 @@
+import pandas as pd
+print(f"{'Ejercicio_1':=^46}")
+
+df = pd.read_csv("../DataSet/train.csv")
+
+print(f"{'Ejercicio_2':=^46}")
+df_colums = df.columns
+print("Estas son las columnas: ", df_colums)
+print("----------------------------")
+
+df_null = df.isnull().sum()          
+print("Estos son los nulos: ", df_null)
+print("----------------------------")
+
+df_media = round(df['Sales'].mean(), 2)
+print("La media estadística es:", df_media)
+print("----------------------------")
+
+df_texto = df.describe()             
+print("Este es el modo texto:\n", df_texto)
+print("----------------------------")
+
+print(f"{'Ejercicio_3':=^46}")
+df_copia = df.copy(deep=True)
+print("\nEsta es la copia:\n", df_copia)
+
+print(f"{'Ejercicio_4':=^46}")
+print("----------------------------")
+df_filtro = df.dtypes
+print("\nEste es el filtro de columnas:\n", df_filtro)
+print("----------------------------")
+
+print(f"{'Ejercicio_5':=^46}")
+df = df.drop(columns=['Postal Code'])  
+print("Columna 'Postal Code' eliminada correctamente")
+print("----------------------------")
+
+print(f"{'Ejercicio_6':=^46}")
+df_sales = df['Sales']
+df['Sales with Vat'] = df['Sales'] * 1.21
+df_saleswithvat = df['Sales with Vat']
+print(f"\nVentas sin IVA:\n{df_sales}")
+print(f"\nVentas con IVA:\n{df_saleswithvat}")
+print("----------------------------")
+
+print(f"{'Ejercicio_7':=^46}")
+filtradoloc = df.loc[5:8, 'Customer Name':'Sales']
+print(f"\n{filtradoloc}")
+print("----------------------------")
+
+filtradoiloc = df.iloc[0:7, 0:6]
+print(f"\n{filtradoiloc}")
+print("----------------------------")
+
+print(f"{'Ejercicio_8':=^46}")
+print(df[df['City'].isin(['Chicago'])])
+print(df[df['Sales'].between(20.0, 100.0)])
+print(df[df['State'].str.contains('o', case=False)])
+print(df.query('City == "Los Angeles" and  Sales > 20000'))
+print(df[df['Sales'].isna()])
+print(df[df['Sales'].notna()])
+print("----------------------------")
+print(f"{'Ejercicio_9':=^46}")
+
+# Convertir la columna a datetime con formato DD/MM/YYYY
+df['Order Date'] = pd.to_datetime(df['Order Date'], format='%d/%m/%Y')
+
+# Obtener fecha mínima y máxima
+fecha_min = df['Order Date'].min()
+fecha_max = df['Order Date'].max()
+
+print(f"Fecha mínima: {fecha_min.date()}")
+print(f"Fecha máxima: {fecha_max.date()}")
+
+# Filtrar entre fecha mínima y máxima
+df_fechas = df[df['Order Date'].between(fecha_min, fecha_max)]
+print(f"\nRegistros entre {fecha_min.date()} y {fecha_max.date()}:\n")
+print(df_fechas)
+print("----------------------------")
+print("conclusiones: el dataset muestra el periodo de transacciones de venta durante 3 años con una media de precio de venta de 230 con precios dispares entre 5 a 1000, 9800 transacciones en 3 años nos parece poco, el dataset esta segmentado por tipo de usuario que compra, esta bastante completo con solamente 11 nulls nos queda por verificar outliers")
+df
