@@ -1,0 +1,86 @@
+import pandas as pd
+import numpy as np
+
+# ============================================================
+# CARGA
+# ============================================================
+df = pd.read_csv('../DataSet/train.csv')
+
+print("=" * 60)
+print("EXPLORACIÓN COMPLETA — train.csv")
+print("=" * 60)
+
+# ============================================================
+# 1. DIMENSIONES
+# ============================================================
+print(f"\n{'='*60}\n1. DIMENSIONES\n{'='*60}")
+print(f"Filas: {df.shape[0]:,}")
+print(f"Columnas: {df.shape[1]}")
+
+# ============================================================
+# 2. FILAS
+# ============================================================
+print(f"\n{'='*60}\n2. PRIMERAS 5 FILAS\n{'='*60}")
+print(df.head())
+
+print(f"\nÚLTIMAS 5 FILAS:")
+print(df.tail())
+
+# ============================================================
+# 3. INFORMACIÓN DE ESTRUCTURA Y TIPOS
+# ============================================================
+print(f"\n{'='*60}\n3. ESTRUCTURA Y TIPOS\n{'='*60}")
+df.info()
+
+# ============================================================
+# 4. ESTADÍSTICAS DE COLUMNAS NUMÉRICAS
+# ============================================================
+print(f"\n{'='*60}\n4. ESTADÍSTICAS DESCRIPTIVAS (NUMÉRICAS)\n{'='*60}")
+print(df.describe())
+
+# ============================================================
+# 5. VALORES NULOS POR COLUMNA
+# ============================================================
+print(f"\n{'='*60}\n5. VALORES NULOS POR COLUMNA\n{'='*60}")
+nulos = df.isnull().sum()
+pct = (df.isnull().mean() * 100).round(2)
+resumen = pd.DataFrame({'nulos': nulos, '%': pct})
+print(resumen.to_string())
+
+# ============================================================
+# 6. COLUMNA POR COLUMNA — valores únicos y top frecuencias
+# ============================================================
+print(f"\n{'='*60}\n6. ANÁLISIS COLUMNA POR COLUMNA\n{'='*60}")
+
+for col in df.columns:
+    print(f"\n--- {col} ---")
+    print(f"  Tipo: {df[col].dtype}")
+    print(f"  Nulos: {df[col].isnull().sum():,} ({df[col].isnull().mean()*100:.1f}%)")
+    print(f"  Valores únicos: {df[col].nunique():,}")
+
+    if df[col].dtype in ['int64', 'float64']:
+        print(f"  Min: {df[col].min()}  |  Max: {df[col].max()}")
+        print(f"  Media: {df[col].mean():.2f}  |  Mediana: {df[col].median():.2f}")
+        print(f"  Desv. estándar: {df[col].std():.2f}")
+    else:
+        top10 = df[col].value_counts().head(10)
+        print(f"  Top 10 valores:")
+        for val, cnt in top10.items():
+            print(f"    {val}: {cnt:,} ({cnt/len(df)*100:.1f}%)")
+
+# ============================================================
+# 7. MATRIZ DE CORRELACIONES
+# ============================================================
+print(f"\n{'='*60}\n7. MATRIZ DE CORRELACIONES\n{'='*60}")
+cols_corr = df.select_dtypes(include=[np.number]).columns.tolist()
+print(df[cols_corr].corr().round(2).to_string())
+
+
+# ============================================================
+# 8. Borrar nulos de 'Postal Code' y convertir a entero
+# ============================================================
+print(f"\n{'='*60}\n8. Borrar nulos de 'Postal Code' y convertir a entero\n{'='*60}")
+print("Aqui borramos los nulos de postal code ")
+df = df.dropna(subset=['Postal Code'])
+df['Postal Code'] = df['Postal Code'].astype(int)
+df
