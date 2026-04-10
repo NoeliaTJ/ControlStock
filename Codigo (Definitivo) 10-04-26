@@ -92,7 +92,6 @@ df['Order Date'] = pd.to_datetime(df['Order Date'], format='%d/%m/%Y')
 df['Ship Date'] = pd.to_datetime(df['Ship Date'], format='%d/%m/%Y')
 df.info('Date')
 
-
 Postal code: Nº Continua
 Sales: Nº Continua
 Order Date: Temporal
@@ -104,4 +103,6 @@ Customer Name: Categorica Nominal
 Ship Mode: Categoria Nominal
 Region: Categoria Nominal
 Category: Categoria Nominal
- Sub-Category: Categoria Nominal 
+Sub-Category: Categoria Nominal 
+Product Name: Ctegoria Nominal
+
