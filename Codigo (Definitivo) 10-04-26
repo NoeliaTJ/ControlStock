@@ -80,7 +80,22 @@ print(df[cols_corr].corr().round(2).to_string())
 # 8. Borrar nulos de 'Postal Code' y convertir a entero
 # ============================================================
 print(f"\n{'='*60}\n8. Borrar nulos de 'Postal Code' y convertir a entero\n{'='*60}")
-print("Aqui borramos los nulos de postal code ")
+print("Aqui borramos los nulosC de postal code ")
 df = df.dropna(subset=['Postal Code'])
 df['Postal Code'] = df['Postal Code'].astype(int)
-df
+
+# ============================================================
+# 9. Convertir fechas a enteros
+# ============================================================
+print(f"\n{'='*60}\n9. Convertir fechas a enteros\n{'='*60}")
+df['Order Date'] = pd.to_datetime(df['Order Date'], format='%d/%m/%Y')
+df['Ship Date'] = pd.to_datetime(df['Ship Date'], format='%d/%m/%Y')
+df.info('Date')
+
+
+
+Postal code: Nº Continua
+Id: Categorica Ordinal
+Sales: Nº Continua
+Order Date: Temporal
+Ship Date: Temporal   
