@@ -1,0 +1,20 @@
+import numpy as np
+import pandas as pd
+import matplotlib as plt
+import matplotlib.pyplot as plt
+import seaborn as sns
+df = pd.read_csv('../data_set/train.csv')
+def seccion1(titulo):
+            print(f"\n{'═' * 55}")
+            print(f"{titulo:^55}")
+            print(f"{'═' * 55}\n")
+
+def seccion2(titulo2):
+            print(f"\n{'-' * 30}")
+            print(f"{titulo2:^30}")
+            print(f"{'-' * 30}\n")
+
+seccion1("Vamos a crear los gráficos")
+seccion2("Gráfico de segmentos")
+
+sns.countplot(x='Segment', data=df)
